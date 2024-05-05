@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import { StatusCodes } from 'http-status-codes';
 
 
 // hashing password
