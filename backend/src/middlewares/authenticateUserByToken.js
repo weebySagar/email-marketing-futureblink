@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import jwt from 'jsonwebtoken';
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 
 
 // to verify and decode the token
