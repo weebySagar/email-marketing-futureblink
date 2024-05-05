@@ -14,6 +14,6 @@ const nodeSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-const Node = mongoose.model(nodeSchema, 'Node');
+const Node = mongoose.model('Node', nodeSchema);
 
 export default Node;

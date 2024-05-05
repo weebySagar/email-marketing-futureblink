@@ -18,6 +18,6 @@ const emailSequenceSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-const EmailSequence = mongoose.model(emailSequenceSchema, 'EmailSequence');
+const EmailSequence = mongoose.model('EmailSequence', emailSequenceSchema);
 
 export default EmailSequence;
