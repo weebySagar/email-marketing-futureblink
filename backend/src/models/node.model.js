@@ -11,6 +11,11 @@ const nodeSchema = new mongoose.Schema({
     parameters: {
         type: String
     },
+    sequence: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'EmailSequence',
+        required: true
+    }
 
 }, { timestamps: true })
 

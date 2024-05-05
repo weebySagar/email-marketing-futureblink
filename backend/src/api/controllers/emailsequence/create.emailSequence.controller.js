@@ -4,7 +4,7 @@ import EmailSequence from "../../../models/sequence.model.js";
 import Node from "../../../models/node.model.js";
 
 
-export const createEmailSequence = async (req, res) => {
+const createEmailSequence = async (req, res) => {
     try {
         const { name, nodes } = req.body;
 
@@ -18,7 +18,7 @@ export const createEmailSequence = async (req, res) => {
             const node = await Node.create({
                 type: nodeData.type,
                 parameters: nodeData.parameters,
-
+                sequence: sequence._id
             })
 
             sequence.nodes.push(node._id)
@@ -31,3 +31,5 @@ export const createEmailSequence = async (req, res) => {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ status: 'error', msg: `Internal server error : ${error.message}` })
     }
 }
+
+export default createEmailSequence

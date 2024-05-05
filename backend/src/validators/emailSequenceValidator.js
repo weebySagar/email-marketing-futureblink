@@ -5,7 +5,8 @@ const emailSequenceSchemaValidator = Joi.object({
     nodes: Joi.array().items(
         Joi.object({
             type: Joi.string().valid('SendMail', 'Wait', 'Decision').required(),
-            parameters: Joi.string()
+            parameters: Joi.string(),
+            sequence: Joi.string()
         })
     ).required()
 });
