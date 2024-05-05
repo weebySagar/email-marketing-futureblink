@@ -12,7 +12,7 @@ const nodeSchema = new mongoose.Schema({
         type: String
     },
 
-})
+}, { timestamps: true })
 
 const Node = mongoose.model(nodeSchema, 'Node');
 
