@@ -3,29 +3,23 @@ import EmailSequenceDetail from "@pages/EmailSequenceDetail";
 import Login from "@pages/Login";
 import Register from "@pages/Register";
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-const Routes = () => {
+const Routers = () => {
   // defining routes
-  const router = createBrowserRouter([
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/emailsequences",
-      element: <EmailSequence />,
-    },
-    {
-      path: "/emailsequences/:emailSequenceId",
-      element: <EmailSequenceDetail />,
-    },
-  ]);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/emailsequences" element={<EmailSequence />} />
+        <Route
+          path="/emailsequences/:emailSequenceId"
+          element={<EmailSequenceDetail />}
+        />
+      </Routes>
+    </>
+  );
 };
 
-export default Routes;
+export default Routers;
