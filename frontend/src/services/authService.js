@@ -11,3 +11,14 @@ export const registerUser = async (userData) => {
         throw error.response.data.msg
     }
 }
+
+
+// for user login
+export const loginUser = async (userData) => {
+    try {
+        const { data } = await axios.post(BASE_URL + "/login", userData);
+        return data;
+    } catch (error) {
+        throw error.response.data.msg;
+    }
+}

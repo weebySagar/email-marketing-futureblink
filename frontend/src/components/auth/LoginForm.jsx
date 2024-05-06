@@ -2,11 +2,12 @@ import useForm from "@hooks/useForm";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { registerUser } from "../../services/authService";
+import { loginUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
+
   const initialState = {
     email: "",
     password: "",
@@ -36,20 +37,20 @@ const RegisterForm = () => {
   } = useForm(initialState, validate, handleRegisterUser);
 
   function handleRegisterUser() {
-    toast.promise(registerUser(userData), {
+    toast.promise(loginUser(userData), {
       loading: "Hang on...",
       success: () => {
         handleReset();
-        navigate("/login");
-        return "User created successfully";
+        navigate("/emailsequences", { replace: true });
+        return "User Login successfully";
       },
       error: (e) => e,
     });
   }
   return (
     <div className="rounded shadow py-3 px-4">
-      <h3>Register</h3>
-      <p>Create an account</p>
+      <h3>Log in</h3>
+      <p>Already have an account ?</p>
 
       <div className="content-wrap">
         <Form onSubmit={handleSubmit} noValidate>
@@ -82,7 +83,7 @@ const RegisterForm = () => {
           </Form.Group>
 
           <Button variant="primary" type="submit">
-            Register
+            Login
           </Button>
         </Form>
       </div>
@@ -90,4 +91,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
