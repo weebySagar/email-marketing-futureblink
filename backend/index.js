@@ -2,13 +2,15 @@ import express from 'express';
 
 import { mongoDBCon } from './src/config/mongoDBCon.js';
 import authRoutes from './src/api/routes/auth/auth.routes.js';
-import emailSequenceRoutes from './src/api/routes/emailsequence/emailsequence.routes.js'
+import emailSequenceRoutes from './src/api/routes/emailsequence/emailsequence.routes.js';
+import cors from 'cors';
 
 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors())
 app.use(express.json())
 app.use('/api/auth', authRoutes)
 app.use('/api/emailsequence', emailSequenceRoutes)
