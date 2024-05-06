@@ -4,10 +4,11 @@ import { Button, Form } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { loginUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   const initialState = {
     email: "",
     password: "",
@@ -39,8 +40,9 @@ const LoginForm = () => {
   function handleRegisterUser() {
     toast.promise(loginUser(userData), {
       loading: "Hang on...",
-      success: () => {
+      success: (res) => {
         handleReset();
+        login(res.user, res.token);
         navigate("/emailsequences", { replace: true });
         return "User Login successfully";
       },
