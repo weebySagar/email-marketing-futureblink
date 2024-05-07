@@ -14,3 +14,18 @@ export const getAllEmailSequence = async () => {
         throw error.response.data.msg;
     }
 }
+
+
+
+export const createEmailSequence = async (sequenceData) => {
+    try {
+        const { data } = await axios.post(BASE_URL, sequenceData, {
+            headers: {
+                Authorization: localStorage.getItem("futureBlinkToken")
+            }
+        });
+        return data.emailSequence;
+    } catch (error) {
+        throw error.response.data.msg;
+    }
+}

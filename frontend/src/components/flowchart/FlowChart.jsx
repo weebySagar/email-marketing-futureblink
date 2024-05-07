@@ -9,12 +9,11 @@ import ReactFlow, {
   addEdge,
 } from "reactflow";
 import "reactflow/dist/style.css";
+
 import NodeMenu from "./NodeMenu";
-import SendMailNode from "./SendMailNode";
 import CustomNode from "./CustomNode";
 
 const nodeTypes = {
-  sendMailNode: SendMailNode,
   customNode: CustomNode,
 };
 

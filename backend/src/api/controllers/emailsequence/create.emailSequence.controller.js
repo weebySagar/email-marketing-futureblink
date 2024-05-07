@@ -26,7 +26,7 @@ const createEmailSequence = async (req, res) => {
 
         await sequence.save();
 
-        return res.status(StatusCodes.CREATED).json({ status: 'success', msg: 'email sequence created successfully' })
+        return res.status(StatusCodes.CREATED).json({ status: 'success', msg: 'email sequence created successfully', emailSequence: sequence })
     } catch (error) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ status: 'error', msg: `Internal server error : ${error.message}` })
     }
