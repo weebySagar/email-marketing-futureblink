@@ -57,9 +57,13 @@ export const loginUser = async (req, res) => {
 
         // signing with jwt token
         const authToken = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+        const modifiedUser = {
+            email: user.email
+
+        }
 
 
-        return res.status(StatusCodes.OK).json({ status: 'success', msg: 'User login successfull', token: authToken })
+        return res.status(StatusCodes.OK).json({ status: 'success', msg: 'User login successfull', token: authToken, user: modifiedUser })
 
     } catch (error) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ status: 'error', msg: `Internal server error : ${error.message}` })
