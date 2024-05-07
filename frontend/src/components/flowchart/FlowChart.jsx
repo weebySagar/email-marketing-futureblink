@@ -12,6 +12,7 @@ import "reactflow/dist/style.css";
 
 import NodeMenu from "./NodeMenu";
 import CustomNode from "./CustomNode";
+import Actions from "./Actions";
 
 const nodeTypes = {
   customNode: CustomNode,
@@ -35,8 +36,9 @@ const FlowChart = () => {
     },
   ];
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [parameters, setParameters] = useState("");
 
   const onConnect = useCallback(
     (connection) => {
@@ -69,9 +71,10 @@ const FlowChart = () => {
           <Background />
           <Controls />
         </ReactFlow>
-        <div style={{ position: "absolute", right: "10px", top: "10%" }}>
-          <NodeMenu />
+        <div style={{ position: "absolute", left: "50px", top: "10%" }}>
+          <NodeMenu parameters={parameters} setParameters={setParameters} />
         </div>
+        <Actions parameters={parameters} setParameters={setParameters} />
       </ReactFlowProvider>
     </div>
   );

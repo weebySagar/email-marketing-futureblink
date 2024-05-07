@@ -2,52 +2,25 @@ import React from "react";
 import { useReactFlow } from "reactflow";
 import { Position } from "reactflow";
 
-const NodeMenu = () => {
-  const data = [
-    {
-      title: "Send Mail",
-      className: "send-mail-node",
-      icon: "fa-regular fa-envelope fa-lg",
-      placeholder: "Template",
-      nodeType: [{ position: Position.Bottom, type: "source" }],
-    },
-    {
-      title: "Wait",
-      icon: "fa-regular fa-clock fa-lg",
-      className: "wait-node",
-      placeholder: "Duration",
-      nodeType: [
-        { position: Position.Top, type: "target" },
-        { position: Position.Bottom, type: "source" },
-      ],
-    },
-    {
-      title: "Decision",
-      icon: "fa-solid fa-hourglass-end fa-lg",
-      className: "decision-node",
-      nodeType: [{ position: Position.Top, type: "target" }],
-    },
-  ];
+const NodeMenu = ({ parameters, setParameters }) => {
+  const data = ["SendMail", "Wait", "Decision"];
 
   const { addNodes, getNodes } = useReactFlow();
 
   const handleChange = (e) => {
     const location = Math.random() * 100;
-    const nodeData = data[e.target.value];
-
+    const nodeData = e.target.value;
     const newNode = {
       id: String(getNodes().length + 1),
       data: {
-        title: nodeData.title,
-        icon: nodeData.icon,
-        className: nodeData.className,
-        placeholder: nodeData.placeholder,
-        nodeType: nodeData.nodeType,
+        type: nodeData,
+        parameters: parameters,
       },
       position: { x: location, y: location },
       type: "customNode",
       height: 40,
       width: 150,
+      setParameters,
     };
 
     addNodes(newNode);
@@ -60,8 +33,8 @@ const NodeMenu = () => {
     >
       <option defaultValue={""}>Create Node</option>
       {data.map((optionData, index) => (
-        <option value={index} key={index}>
-          {optionData.title}
+        <option value={optionData} key={index}>
+          {optionData}
         </option>
       ))}
     </select>

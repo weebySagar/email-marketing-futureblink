@@ -29,3 +29,17 @@ export const createEmailSequence = async (sequenceData) => {
         throw error.response.data.msg;
     }
 }
+
+
+export const updateEmailSequence = async (sequenceData, sequenceId) => {
+    try {
+        const { data } = await axios.put(BASE_URL + "/" + sequenceId, { nodes: sequenceData }, {
+            headers: {
+                Authorization: localStorage.getItem("futureBlinkToken")
+            }
+        });
+        return data.emailSequence;
+    } catch (error) {
+        throw error.response.data.msg;
+    }
+}
