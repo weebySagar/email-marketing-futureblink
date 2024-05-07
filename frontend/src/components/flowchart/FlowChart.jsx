@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -13,33 +13,38 @@ import "reactflow/dist/style.css";
 import NodeMenu from "./NodeMenu";
 import CustomNode from "./CustomNode";
 import Actions from "./Actions";
+import useFetch from "@hooks/useFetch";
+import { getSingleEmailSequence } from "../../services/emailSequenceService";
+import { useParams } from "react-router-dom";
+import EmailLoader from "@components/emailSequence/EmailLoader";
 
 const nodeTypes = {
   customNode: CustomNode,
 };
 
 const FlowChart = () => {
-  const initialNodes = [
-    {
-      id: "1",
-      position: { x: 0, y: 0 },
-      data: {
-        label: "Node 1",
-      },
-    },
-    {
-      id: "2",
-      position: { x: 100, y: 0 },
-      data: {
-        label: "Node 2",
-      },
-    },
-  ];
+  const { emailSequenceId } = useParams();
+  const { data, isLoading, error } = useFetch(
+    getSingleEmailSequence,
+    emailSequenceId
+  );
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [parameters, setParameters] = useState("");
 
+  const initialNodes = data?.nodes?.map((node) => ({
+    id: node._id,
+    type: "customNode",
+    data: {
+      type: node.type,
+      parameters: node.parameters,
+    },
+    position: node.position,
+  }));
+
+  useEffect(() => {
+    setNodes(initialNodes);
+  }, [data]);
   const onConnect = useCallback(
     (connection) => {
       const edge = {
@@ -52,32 +57,37 @@ const FlowChart = () => {
     [edges]
   );
 
-  return (
-    <div
-      style={{
-        height: "calc(100vh - 60px)",
-        position: "relative",
-      }}
-    >
-      <ReactFlowProvider>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          nodeTypes={nodeTypes}
-          onConnect={onConnect}
-        >
-          <Background />
-          <Controls />
-        </ReactFlow>
-        <div style={{ position: "absolute", left: "50px", top: "10%" }}>
-          <NodeMenu parameters={parameters} setParameters={setParameters} />
-        </div>
-        <Actions parameters={parameters} setParameters={setParameters} />
-      </ReactFlowProvider>
-    </div>
-  );
+  if (isLoading) {
+    return <EmailLoader />;
+  }
+
+  if (data && !isLoading && !error)
+    return (
+      <div
+        style={{
+          height: "calc(100vh - 60px)",
+          position: "relative",
+        }}
+      >
+        <ReactFlowProvider>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
+            onConnect={onConnect}
+          >
+            <Background />
+            <Controls />
+          </ReactFlow>
+          <div style={{ position: "absolute", left: "50px", top: "10%" }}>
+            <NodeMenu />
+          </div>
+          <Actions />
+        </ReactFlowProvider>
+      </div>
+    );
 };
 
 export default FlowChart;

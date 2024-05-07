@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { useEdges, useNodes } from "reactflow";
+import { Position, useEdges, useNodes } from "reactflow";
 import { updateEmailSequence } from "../../services/emailSequenceService";
 
 const Actions = () => {
@@ -12,11 +12,12 @@ const Actions = () => {
 
   const handleSave = () => {
     // console.log(edges);
-    // console.log(nodes);
+    console.log(nodes);
 
     const nodesData = nodes.map((node) => ({
       type: node.data.type,
       parameters: node.data.parameters,
+      position: node.position,
     }));
 
     toast.promise(updateEmailSequence(nodesData, emailSequenceId), {

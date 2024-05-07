@@ -15,6 +15,16 @@ const nodeSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'EmailSequence',
         required: true
+    },
+    position: {
+        x: {
+            type: Number,
+            required: true
+        },
+        y: {
+            type: Number,
+            required: true
+        }
     }
 
 }, { timestamps: true })

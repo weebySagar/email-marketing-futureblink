@@ -15,7 +15,8 @@ const updateEmailSequence = async (req, res) => {
             const node = await Node.create({
                 type: nodeData.type,
                 parameters: nodeData.parameters,
-                sequence: sequence._id
+                sequence: sequence._id,
+                position: nodeData.position
             })
 
             sequence.nodes.push(node._id)

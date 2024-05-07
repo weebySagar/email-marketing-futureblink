@@ -43,3 +43,17 @@ export const updateEmailSequence = async (sequenceData, sequenceId) => {
         throw error.response.data.msg;
     }
 }
+
+
+export const getSingleEmailSequence = async (sequenceId) => {
+    try {
+        const { data } = await axios.get(BASE_URL + "/" + sequenceId, {
+            headers: {
+                Authorization: localStorage.getItem("futureBlinkToken")
+            }
+        });
+        return data.emailSequence;
+    } catch (error) {
+        throw error.response.data.msg;
+    }
+}
