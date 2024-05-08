@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "cd ../frontend && npm install  && npm run build && cd ../backend && npm install &&  node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
