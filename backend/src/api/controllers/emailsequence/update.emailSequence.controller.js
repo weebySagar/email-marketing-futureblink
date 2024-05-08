@@ -9,8 +9,12 @@ const updateEmailSequence = async (req, res) => {
     try {
         const sequenceId = req.params.id;
         const { nodes, edges } = req.body;
-        console.log(req.body);
         const sequence = await EmailSequence.findById(sequenceId);
+        const idMap = {};
+        // for (let val of nodes) {
+        //     idMap[val["id"]] = ""
+        // }
+
 
 
         for (const nodeData of nodes) {
@@ -23,15 +27,19 @@ const updateEmailSequence = async (req, res) => {
                     parameters: nodeData.parameters,
                     position: nodeData.position
                 }, { new: true });
+                idMap[nodeData.id] = node._id.toString()
+
             }
             else {
                 // if there is no node create it
+
                 node = await Node.create({
                     type: nodeData.type,
                     parameters: nodeData.parameters,
                     sequence: sequence._id,
                     position: nodeData.position
-                })
+                });
+                idMap[nodeData.id] = node._id.toString()
             }
 
             sequence.nodes.push(node._id)
@@ -50,8 +58,8 @@ const updateEmailSequence = async (req, res) => {
             else {
                 // if there is no edge create it
                 edge = await Edge.create({
-                    source: edgeData.source,
-                    target: edgeData.target,
+                    source: idMap[edgeData.source],
+                    target: idMap[edgeData.target],
                     sequence: sequence._id,
                 })
             }
@@ -60,8 +68,9 @@ const updateEmailSequence = async (req, res) => {
         }
 
         await sequence.save();
+        const emailSequence = await EmailSequence.findById(sequence._id).populate("nodes").populate("edges");
 
-        return res.status(StatusCodes.CREATED).json({ status: 'success', msg: 'email sequence updated successfully', emailSequence: sequence })
+        return res.status(StatusCodes.CREATED).json({ status: 'success', msg: 'email sequence updated successfully', emailSequence: emailSequence })
     } catch (error) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ status: 'error', msg: `Internal server error : ${error.message}` })
     }

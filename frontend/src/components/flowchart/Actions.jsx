@@ -2,13 +2,17 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { Position, useEdges, useNodes } from "reactflow";
-import { updateEmailSequence } from "../../services/emailSequenceService";
+import { Position, useEdges, useNodes, useReactFlow } from "reactflow";
+import {
+  getSingleEmailSequence,
+  updateEmailSequence,
+} from "../../services/emailSequenceService";
 
 const Actions = () => {
   const edges = useEdges();
   const nodes = useNodes();
   const { emailSequenceId } = useParams();
+  const { setNodes, setEdges } = useReactFlow();
 
   const handleSave = () => {
     // console.log(edges);
@@ -24,7 +28,7 @@ const Actions = () => {
     const edgesData = edges
       .filter((edge) => edge.source && edge.target)
       .map((edge) => ({
-        id: edge.id,
+        id: edge._id,
         source: edge.source,
         target: edge.target,
       }));
@@ -36,7 +40,22 @@ const Actions = () => {
       ),
       {
         loading: "saving...",
-        success: "saved",
+        success: (res) => {
+          const initialNodes = res?.nodes?.map((node) => ({
+            id: node._id,
+            type: "customNode",
+            data: {
+              type: node.type,
+              parameters: node.parameters,
+            },
+            position: node.position,
+          }));
+
+          setNodes(initialNodes);
+          setEdges(res.edges);
+          return "saved";
+        },
+
         error: (e) => e,
       }
     );
