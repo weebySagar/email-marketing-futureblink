@@ -2,13 +2,14 @@ import { StatusCodes } from "http-status-codes";
 
 import EmailSequence from "../../../models/sequence.model.js";
 import Node from "../../../models/node.model.js";
+import Edge from "../../../models/edge.model.js";
 
 
 const updateEmailSequence = async (req, res) => {
     try {
         const sequenceId = req.params.id;
-        const { nodes } = req.body;
-
+        const { nodes, edges } = req.body;
+        console.log(req.body);
         const sequence = await EmailSequence.findById(sequenceId);
 
 
@@ -34,6 +35,28 @@ const updateEmailSequence = async (req, res) => {
             }
 
             sequence.nodes.push(node._id)
+        }
+
+
+        for (const edgeData of edges) {
+            let edge = null;
+            // if the edge already exists
+            if (sequence.edges.includes(edgeData.id)) {
+                edge = await Edge.findByIdAndUpdate(edgeData.id, {
+                    source: edgeData.source,
+                    target: edgeData.target
+                }, { new: true });
+            }
+            else {
+                // if there is no edge create it
+                edge = await Edge.create({
+                    source: edgeData.source,
+                    target: edgeData.target,
+                    sequence: sequence._id,
+                })
+            }
+
+            sequence.edges.push(edge._id)
         }
 
         await sequence.save();

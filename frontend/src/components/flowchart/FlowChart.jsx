@@ -44,6 +44,7 @@ const FlowChart = () => {
 
   useEffect(() => {
     setNodes(initialNodes);
+    setEdges(data.edges);
   }, [data]);
   const onConnect = useCallback(
     (connection) => {

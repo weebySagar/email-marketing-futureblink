@@ -10,6 +10,12 @@ const emailSequenceSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Node'
     }],
+    edges: [
+        {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'Edge'
+        }
+    ],
     createdBy: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'User',

@@ -11,7 +11,8 @@ const createEmailSequence = async (req, res) => {
         const sequence = new EmailSequence({
             name,
             createdBy: req.user._id,
-            nodes: []
+            nodes: [],
+            edges: []
         })
 
         for (const nodeData of nodes) {

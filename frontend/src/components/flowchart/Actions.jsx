@@ -12,7 +12,7 @@ const Actions = () => {
 
   const handleSave = () => {
     // console.log(edges);
-    console.log(nodes);
+    // console.log(nodes);
 
     const nodesData = nodes.map((node) => ({
       id: node.id,
@@ -21,11 +21,27 @@ const Actions = () => {
       position: node.position,
     }));
 
-    toast.promise(updateEmailSequence(nodesData, emailSequenceId), {
-      loading: "saving...",
-      success: "saved",
-      error: (e) => e,
-    });
+    const edgesData = edges
+      .filter((edge) => edge.source && edge.target)
+      .map((edge) => ({
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+      }));
+
+    console.log(edgesData);
+
+    toast.promise(
+      updateEmailSequence(
+        { nodes: nodesData, edges: edgesData },
+        emailSequenceId
+      ),
+      {
+        loading: "saving...",
+        success: "saved",
+        error: (e) => e,
+      }
+    );
   };
   return (
     <div className="position-absolute" style={{ top: "15%", left: "50px" }}>

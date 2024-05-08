@@ -33,7 +33,7 @@ export const createEmailSequence = async (sequenceData) => {
 
 export const updateEmailSequence = async (sequenceData, sequenceId) => {
     try {
-        const { data } = await axios.put(BASE_URL + "/" + sequenceId, { nodes: sequenceData }, {
+        const { data } = await axios.put(BASE_URL + "/" + sequenceId, sequenceData, {
             headers: {
                 Authorization: localStorage.getItem("futureBlinkToken")
             }
