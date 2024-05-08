@@ -57,3 +57,18 @@ export const getSingleEmailSequence = async (sequenceId) => {
         throw error.response.data.msg;
     }
 }
+
+
+export const deleteEmailSequence = async (sequenceId) => {
+    try {
+        const { data } = await axios.delete(BASE_URL + "/" + sequenceId, {
+            headers: {
+                Authorization: localStorage.getItem("futureBlinkToken")
+
+            }
+        });
+        return data;
+    } catch (error) {
+        throw error.response.data.msg;
+    }
+}

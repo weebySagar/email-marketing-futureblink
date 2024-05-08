@@ -5,6 +5,7 @@ import { getAllEmailSequence } from "../../services/emailSequenceService";
 import EmailLoader from "./EmailLoader";
 import InnerWrapper from "@components/ui/InnerWrapper";
 import EmailSequenceItem from "./EmailSequenceItem";
+import { Col, Row } from "react-bootstrap";
 
 const EmailSequenceListing = () => {
   const { data, isLoading } = useFetch(getAllEmailSequence);
@@ -23,9 +24,13 @@ const EmailSequenceListing = () => {
 
   return (
     <InnerWrapper>
-      {data.map((emailSequence) => (
-        <EmailSequenceItem {...emailSequence} />
-      ))}
+      <Row className="row-gap-2">
+        {data.map((emailSequence) => (
+          <Col xs={12} md={4} lg={3}>
+            <EmailSequenceItem {...emailSequence} />
+          </Col>
+        ))}
+      </Row>
     </InnerWrapper>
   );
 };

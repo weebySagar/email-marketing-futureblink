@@ -29,8 +29,6 @@ const Actions = () => {
         target: edge.target,
       }));
 
-    console.log(edgesData);
-
     toast.promise(
       updateEmailSequence(
         { nodes: nodesData, edges: edgesData },

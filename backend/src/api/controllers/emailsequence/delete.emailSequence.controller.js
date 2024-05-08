@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 
 import EmailSequence from "../../../models/sequence.model.js";
 import Node from "../../../models/node.model.js";
+import Edge from "../../../models/edge.model.js";
 
 
 const deleteEmailSequence = async (req, res) => {
@@ -14,12 +15,15 @@ const deleteEmailSequence = async (req, res) => {
         }
 
         // check whether the requested user created the sequence
-        if (emailSequence.createdBy !== req.user._id) {
+        if (emailSequence.createdBy.toString() !== req.user._id.toString()) {
             return res.status(StatusCodes.UNAUTHORIZED).json({ status: 'error', msg: 'Not an authorized user to delete this sequence' })
         }
 
         // delete nodes associated to that sequence
         await Node.deleteMany({ sequence: emailSequence._id });
+
+        // delete edges associated to that sequence
+        await Edge.deleteMany({ sequence: emailSequence._id });
 
         // delete sequence
         await emailSequence.deleteOne();
