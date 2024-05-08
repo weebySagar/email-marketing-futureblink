@@ -2,11 +2,8 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { Position, useEdges, useNodes, useReactFlow } from "reactflow";
-import {
-  getSingleEmailSequence,
-  updateEmailSequence,
-} from "../../services/emailSequenceService";
+import { useEdges, useNodes, useReactFlow } from "reactflow";
+import { updateEmailSequence } from "../../services/emailSequenceService";
 
 const Actions = () => {
   const edges = useEdges();
@@ -15,9 +12,6 @@ const Actions = () => {
   const { setNodes, setEdges } = useReactFlow();
 
   const handleSave = () => {
-    // console.log(edges);
-    // console.log(nodes);
-
     const nodesData = nodes.map((node) => ({
       id: node.id,
       type: node.data.type,

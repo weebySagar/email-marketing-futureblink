@@ -1,6 +1,5 @@
 import React from "react";
 import { useReactFlow } from "reactflow";
-import { Position } from "reactflow";
 
 const NodeMenu = ({ parameters, setParameters }) => {
   const data = ["SendMail", "Wait", "Decision"];
