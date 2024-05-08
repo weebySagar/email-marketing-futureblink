@@ -1,16 +1,21 @@
 import React from "react";
-import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const Header = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
   return (
     <header>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand to="/" as={NavLink}>
-            Email
+          <Navbar.Brand to="/" as={NavLink} className="fw-bold">
+            Email Marketing
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -20,7 +25,7 @@ const Header = () => {
                   <Nav.Link to="/" as={NavLink}>
                     Home
                   </Nav.Link>
-                  <Nav.Link to="/" as={NavLink}>
+                  <Nav.Link as={"button"} onClick={handleLogout}>
                     Logout
                   </Nav.Link>
                 </>
