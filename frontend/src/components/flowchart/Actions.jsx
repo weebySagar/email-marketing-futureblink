@@ -15,6 +15,7 @@ const Actions = () => {
     console.log(nodes);
 
     const nodesData = nodes.map((node) => ({
+      id: node.id,
       type: node.data.type,
       parameters: node.data.parameters,
       position: node.position,
